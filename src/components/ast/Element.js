@@ -184,7 +184,7 @@ let Element = class extends React.Component {
       parser,
       level,
     } = this.props;
-    const {
+    let {
       open,
       value,
     } = this.state;
@@ -197,6 +197,12 @@ let Element = class extends React.Component {
     let enableHighlight = false;
 
     if (value && typeof value === 'object') {
+
+      //try to transform some custom parsers structures to JSON
+      if (value.toJSON) {
+        value = value.toJSON();
+      }
+
       if (!Array.isArray(value)) {
         const nodeName = parser.getNodeName(value);
         if (nodeName) {
